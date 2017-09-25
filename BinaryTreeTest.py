@@ -16,7 +16,7 @@ class TestBinaryTree(unittest.TestCase):
 
     #test insert function on tree by checking root element
     def test_insert(self):
-	self.assertEqual(self.tree.getRoot(), 5)
+	self.assertEqual(self.tree.get_root(), 5)
 
     #test find element from tree
     def test_find(self):
@@ -39,6 +39,6 @@ class TestBinaryTree(unittest.TestCase):
 	self.assertEqual(self.tree.postorder(), [1, 3, 2, 6, 5])
 
     
-    
+#execute test cases    
 if __name__ == '__main__':
 	unittest.main()

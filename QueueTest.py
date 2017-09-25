@@ -6,7 +6,9 @@ class TestQueue(unittest.TestCase):
     #create queue object
     def setUp(self):
 	self.queue = Queue.Queue()
-	self.queue.enqueue([1,2,3])
+	data = [1,2,3]
+        for element in data:
+	    self.queue.enqueue(element)
 
     #destroy queue object
     def tearDown(self):
@@ -28,6 +30,7 @@ class TestQueue(unittest.TestCase):
 	self.assertEqual(self.queue.dequeue(), 3)
 	self.assertEqual(self.queue.dequeue(), None)
 
-    
+
+#execute test cases    
 if __name__ == '__main__':
 	unittest.main()

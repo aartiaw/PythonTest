@@ -6,7 +6,9 @@ class TestStack(unittest.TestCase):
     #create stack object
     def setUp(self):
 	self.stack = Stack.Stack()
-	self.stack.push([1,2,3])
+	data = [1,2,3]
+        for element in data:
+            self.stack.push(element)
 
     #destroy stack object
     def tearDown(self):
@@ -28,6 +30,7 @@ class TestStack(unittest.TestCase):
 	self.assertEqual(self.stack.pop(), 1)
 	self.assertEqual(self.stack.pop(), None)
 
-    
+
+#execute test cases    
 if __name__ == '__main__':
 	unittest.main()

@@ -5,15 +5,12 @@ class Stack(object):
   
   def push(self, data):
     ''' Pushes the data on the top of the stack '''
-    for element in data:
-	self.stack.append(element)
-    print "Elements added successfully"
-  
+    self.stack.append(data)
+      
   def pop(self):
     ''' Removes the data at the top of the stack and return it '''
     if self.stack:
 	top = self.stack.pop()
-	print str(top)+" removed from stack"
 	return top
     else:
 	print "Stack is empty"
@@ -28,14 +25,20 @@ class Stack(object):
     else:
 	return 
 
+'''Executing above functions'''
 if __name__ == '__main__':
-    stackObj = Stack()
+    stackobj = Stack()
 
-    stackObj.push([1,2,3,4,5])
+    '''Insert elements into stack'''
+    data = [1,2,3,4,5]
+    for element in data:
+        stackobj.push(element)
 
-    print "Top element: "+str(stackObj.top)
+    '''Print top element from stack'''
+    print "Top element: "+str(stackobj.top)
 
-    stackObj.pop()
-    stackObj.pop()
-    stackObj.pop()
+    '''Pop elements from the top of the stack'''
+    stackobj.pop()
+    stackobj.pop()
+    stackobj.pop()
     

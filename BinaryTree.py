@@ -1,3 +1,10 @@
+'''Used for iterative level_order traversal'''
+from Queue import Queue
+
+'''Used for iterative inorder, preorder and postorder traversal'''
+from Stack import Stack		
+
+
 class BinaryTree(object):
   ''' Represents a binary tree '''
   
@@ -9,35 +16,38 @@ class BinaryTree(object):
       self.data = data
       self.left = None
       self.right = None
-
-    def __str__(self):
-            return "[{0}<-{1}->{2}]".format(self.left, self.data, self.right)
      
   
   def __init__(self):
     ''' Constructor for Binary Tree '''
     self.root = None
 
-  def getRoot(self):
+  def get_root(self):
     ''' Returns root element '''
     return self.root.data
-  
+    
   def insert(self, data):
     '''Insert a node in tree'''
     node = self.Node(data)
+
+    '''create root node initially'''
     if self.root is None:
 	self.root = node
 
     else:
 	head = self.root
 	while True:
+            '''When data < root.data and root.left is empty, 
+	       add node to the left of root'''
 	    if data < head.data:
 		if head.left is None:
 		   head.left = node
 		   break
 		head = head.left
 
-	    elif data > head.data:
+            '''When data > root.data and root.left is empty, 
+	       add node to the left of root'''
+	    if data > head.data:
 		if head.right is None:
 		   head.right = node
 		   break
@@ -45,8 +55,11 @@ class BinaryTree(object):
  	   	  
 
   def find(self, data):
+    '''Search for data in the tree'''
     node = self.root
     
+    '''Iterate whole tree to find if data exists,
+       if found, return the data, else give appropriate message'''
     while node:
 	if node.data == data:
 	    return node.data
@@ -61,94 +74,118 @@ class BinaryTree(object):
 
   def level_order(self):
     '''Breadth first traversal of tree'''
-    queue = [self.root]
-    testlist = []
-    while queue:
-	node = queue.pop(0)
-	testlist.append(node.data)
+    queue = Queue()
+    queue.enqueue(self.root)
+    levelorder = []
 
+    '''Display root node, enqueue it's left and right node. For all 
+       elements enqueued, put it's left and right nodes in the queue.
+       Dequeue the queue to get level order of tree.'''
+    while queue.queue:
+        node = queue.dequeue()
+        if node:
+	    levelorder.append(node.data)
+	    	    
 	if node.left is not None:
-	    queue.append(node.left)
+	    queue.enqueue(node.left)
 	if node.right is not None:
-	    queue.append(node.right)
+	    queue.enqueue(node.right)
 
-    return testlist
+    return levelorder
   
 
   def inorder(self):
     '''Iterative inorder traversal'''
     if self.root is None:
 	return
-    stack = []
-    testlist = []
+    stack = Stack()
+    inorder = []
     node = self.root
     
-    while stack or node:
+    '''Starting with root node, traverse and push left subtree in the stack.
+       Push root in the stack and then push right subtree into the stack. Pop
+       the stack to get inorder traversal of tree.'''
+    while stack.stack or node:
             if node:
-		stack.append(node)                
+		stack.push(node)                
 		node = node.left
 		
             else:
                 node = stack.pop()
-		testlist.append(node.data)
+		inorder.append(node.data)
                 node = node.right
     
-    return testlist
+    return inorder
   
   def preorder(self):
-    stack = [self.root]
-    testlist = []
+    '''Iterative preorder traversal'''
+    stack = Stack()
+    stack.push(self.root)
+    preorder = []
 
-    while stack:
+    '''Pop root node from the stack. Push it's left subtree and then right 
+       subtree into the stack. Pop the top of the stack to get preorder 
+       traversal.'''
+    while stack.stack:
         node = stack.pop()
-        testlist.append(node.data)
+        preorder.append(node.data)
 
         if node.right:
-            stack.append(node.right)
+            stack.push(node.right)
         if node.left:
-            stack.append(node.left)
+            stack.push(node.left)
 
-    return testlist
+    return preorder
   
   def postorder(self):
-    testlist = []
-    list = []
+    '''Iterative postorder traversal'''
+    postorder = []
+    stack = Stack()
     visited = None
     current = self.root
 
-    while len(list) > 0 or current is not None:
+    '''Push left subtree of the root into the stack. Push the right subtree 
+       of all elements of the stack. Pop the stack to get postorder traversal.'''
+    while stack.stack or current is not None:
         if current is not None:
-            list.append(current)
+            stack.push(current)
             current = current.left
         else:
-            middle = list[len(list)-1]
+            middle = stack.stack[len(stack.stack)-1]
             if middle.right is None or visited == middle.right:
-                testlist.append(middle.data)
-                visited = list.pop(len(list)-1)
+                postorder.append(middle.data)
+                visited = stack.pop()
             else:
                 current = middle.right
 
-    return testlist
+    return postorder
 
 
+'''executing above functions'''
 if __name__ == '__main__':
     binaryTreeObj = BinaryTree()
     
+    '''insert data into binary tree'''
     data = [5,2,6,1,3]
     for i in data:
 	binaryTreeObj.insert(i)
 
+    '''search for given element, here 2'''
     print binaryTreeObj.find(2)
 
+    '''display level order traversal'''
     print 'Level order traversal'
     print binaryTreeObj.level_order()
 
+    '''display inorder traversal'''
     print 'Inorder traversal'
     print binaryTreeObj.inorder()
 
+    '''display preorder traversal'''
     print 'Preorder traversal'
     print binaryTreeObj.preorder()
 
+    '''display postorder traversal'''
     print 'Postorder traversal'
     print binaryTreeObj.postorder()
 
